@@ -1,0 +1,11 @@
+import bcrypt from "bcrypt";
+
+async function run() {
+    console.log("laundryterbaikdari2025");
+    console.log(await bcrypt.hash("laundryterbaikdari2025", 10));
+
+    console.log("secepatkilat");
+    console.log(await bcrypt.hash("secepatkilat", 10));
+}
+
+run();

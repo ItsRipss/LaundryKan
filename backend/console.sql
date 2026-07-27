@@ -24,7 +24,19 @@ VALUES ('owner', '$2b$10$xAfLiUITHLwKNh5DakoGmenPftSvL.Uyz13Y66QpXyu7IKBoPgYmG',
 
 -- Password kurir: secepatkilat
 INSERT INTO users (username, password, role, nama_lengkap)
-VALUES ('kurir', '$2b$10$0YEClk12.tnz9g7zxgO1K.RqTRmnYbxPwmAc609kGtIxofOJDYZwO', 'courier', 'Budi Kurir');
+VALUES ('budi', '$2b$10$0YEClk12.tnz9g7zxgO1K.RqTRmnYbxPwmAc609kGtIxofOJDYZwO', 'courier', 'Budi');
+
+INSERT INTO users (username, password, role, nama_lengkap)
+VALUES ('ahmad', '$2b$10$0YEClk12.tnz9g7zxgO1K.RqTRmnYbxPwmAc609kGtIxofOJDYZwO', 'courier', 'Ahmad');
+
+INSERT INTO users (username, password, role, nama_lengkap)
+VALUES ('dafa', '$2b$10$0YEClk12.tnz9g7zxgO1K.RqTRmnYbxPwmAc609kGtIxofOJDYZwO', 'courier', 'Dafa');
+
+INSERT INTO users (username, password, role, nama_lengkap)
+VALUES ('zaki', '$2b$10$0YEClk12.tnz9g7zxgO1K.RqTRmnYbxPwmAc609kGtIxofOJDYZwO', 'courier', 'Zaki');
+
+INSERT INTO users (username, password, role, nama_lengkap)
+VALUES ('rehan', '$2b$10$0YEClk12.tnz9g7zxgO1K.RqTRmnYbxPwmAc609kGtIxofOJDYZwO', 'courier', 'Rehan');
 
 CREATE TABLE orders (
                         code VARCHAR(20) PRIMARY KEY,
@@ -41,7 +53,8 @@ CREATE TABLE orders (
                         total_harga DECIMAL(10,2) DEFAULT NULL,
                         createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
                         payment_status ENUM('Belum Lunas', 'Lunas') NOT NULL DEFAULT 'Belum Lunas',
-                        FOREIGN KEY (courier_id) REFERENCES users(id) ON DELETE SET NULL
+                        FOREIGN KEY (courier_id) REFERENCES users(id) ON DELETE SET NULL,
+                        completed_at DATETIME DEFAULT NULL
 );
 
 -- Tabel Pesan Kontak

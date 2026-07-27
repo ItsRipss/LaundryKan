@@ -8,6 +8,7 @@ import OperationalSummary from "./components/OperationalSummary";
 import useOrderStatistics from "../../hooks/useOrderStatistics";
 import useOrders from "../../hooks/useOrders";
 import useOrderFilters from "../../hooks/useOrderFilters";
+import { RotateCcw } from "lucide-react";
 
 const Orders = () => {
     const token = sessionStorage.getItem("wl_jwt");
@@ -86,6 +87,29 @@ const Orders = () => {
                 completedToday={completedToday}
                 setStatus={setStatus}
             />
+
+            {/*
+                FIX BUG #10: OrderFilters (satu-satunya tempat tombol
+                "Reset Filter" berada) sengaja disembunyikan untuk role
+                courier. Tapi kartu-kartu di OperationalSummary di atas
+                tetap bisa memanggil setStatus(...) untuk SEMUA role,
+                termasuk kurir - jadi kurir bisa "terjebak" di satu
+                filter status tanpa cara untuk kembali ke "Semua
+                Status". Tombol reset ringkas ini khusus untuk kurir,
+                cuma muncul saat filter status sedang aktif (tidak
+                menampilkan search/layanan seperti OrderFilters penuh,
+                karena itu tampaknya memang sengaja disembunyikan untuk
+                alur kerja kurir).
+            */}
+            {userRole === "courier" && status !== "Semua Status" && (
+                <button
+                    onClick={() => setStatus("Semua Status")}
+                    className="flex items-center gap-2 mb-6 px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold transition"
+                >
+                    <RotateCcw size={16} />
+                    Filter aktif: "{status}" — Tampilkan Semua
+                </button>
+            )}
 
             {userRole !== "courier" && (
                 <OrderFilters

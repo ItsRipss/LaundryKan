@@ -158,28 +158,30 @@ const Order = () => {
 
         setIsSubmitting(true);
 
-        const generatedCode = `LK-${Math.floor(100000 + Math.random() * 900000)}`;
-
+        // FIX BUG #13: kode order TIDAK LAGI di-generate di sini.
+        // Sebelumnya `LK-${6 digit acak}` dibuat di frontend tanpa
+        // retry kalau collision - sekarang backend yang generate,
+        // validasi keunikan (retry otomatis), dan mengembalikan kode
+        // finalnya lewat response. Body request juga tidak lagi
+        // mengirim `code` sama sekali.
         try {
             const response = await fetch(`${API_URL}/orders`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    ...formData,
-                    code: generatedCode,
-                }),
+                body: JSON.stringify(formData),
             });
+
+            const data = await response.json().catch(() => ({}));
 
             if (response.ok) {
                 // Sukses: biarkan isSubmitting = true supaya tombol tetap disabled.
                 // Komponen akan beralih ke success view, tidak perlu reset state ini.
-                setTrackingCode(generatedCode);
+                setTrackingCode(data.code);
                 setIsSuccess(true);
                 window.scrollTo({ top: 0, behavior: "smooth" });
             } else {
                 // Gagal dari server: parse error message jika ada, lalu biarkan user coba lagi.
-                const errData = await response.json().catch(() => ({}));
-                alert(errData.message || "Gagal membuat pesanan. Silakan coba lagi.");
+                alert(data.message || "Gagal membuat pesanan. Silakan coba lagi.");
                 setIsSubmitting(false);
             }
         } catch (error) {

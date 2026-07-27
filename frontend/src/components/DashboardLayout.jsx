@@ -10,7 +10,6 @@ import classNames from "classnames";
 import { useEffect, useState } from "react";
 import socket from "../socket/socket";
 import NotificationToast from "./NotificationToast";
-import NotificationBell from "./NotificationBell";
 import { API_URL } from "../config";
 
 export const DashboardLayout = ({ userRole, userName, onLogout }) => {
